@@ -28,9 +28,6 @@ const visibleTemplates = computed(() => {
     (t) => t.category?.toLowerCase() === activeCategory.value.toLowerCase(),
   )
 })
-
-const FALLBACK_THUMB =
-  'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="100"><rect width="160" height="100" fill="%23222224"/></svg>'
 </script>
 
 <template>
@@ -88,9 +85,9 @@ const FALLBACK_THUMB =
           >
             <div class="h-20 w-full overflow-hidden bg-dark-400">
               <img
-                :src="t.thumbnail || FALLBACK_THUMB"
+                :src="t.thumbnail"
                 alt=""
-                class="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+                class="h-full w-full object-contain transition-transform duration-200 group-hover:scale-105"
               />
             </div>
             <span
