@@ -1,13 +1,13 @@
 {
-  "name": "vuetemplate",
-  "version": "0.0.6",
+  "name": "mconnect-web",
+  "version": "0.0.0",
   "private": true,
-  "description": "Vue + Typescript + Tailwind + Tauri Template",
+  "description": "Web UI of MConnect",
   "license": "MIT",
   "author": "Shirsendu Bairagi <shirsendu2001@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shba007/vuetemplate.git"
+    "url": "git+https://github.com/Modest-Human-Brands/mconnect-web.git"
   },
   "type": "module",
   "scripts": {
