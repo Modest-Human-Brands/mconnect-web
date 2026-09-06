@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.0.4
+
+[compare changes](https://github.com/Modest-Human-Brands/mconnect-web/compare/v0.0.3...v0.0.4)
+
+### 🩹 Fixes
+
+- Update environment variable names for consistency in Dockerfile and api.ts ([446dded](https://github.com/Modest-Human-Brands/mconnect-web/commit/446dded))
+- Add API_URL environment variable to deployment configuration ([8cbbd20](https://github.com/Modest-Human-Brands/mconnect-web/commit/8cbbd20))
+
+### ❤️ Contributors
+
+- Shirsendu Bairagi ([@shba007](https://github.com/shba007))
+
 ## v0.0.3
 
 [compare changes](https://github.com/Modest-Human-Brands/mconnect-web/compare/v0.0.2...v0.0.3)
