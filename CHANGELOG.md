@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.0.2
+
+[compare changes](https://github.com/Modest-Human-Brands/mconnect-web/compare/v0.0.1...v0.0.2)
+
+### 🏡 Chore
+
+- Update Dockerfile and package.json for improved build process ([2c50153](https://github.com/Modest-Human-Brands/mconnect-web/commit/2c50153))
+
+### ❤️ Contributors
+
+- Shirsendu Bairagi ([@shba007](https://github.com/shba007))
+
 ## v0.0.1
 
 ### 🚀 Enhancements
