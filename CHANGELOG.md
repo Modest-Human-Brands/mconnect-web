@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.0.3
+
+[compare changes](https://github.com/Modest-Human-Brands/mconnect-web/compare/v0.0.2...v0.0.3)
+
+### 🩹 Fixes
+
+- Update environment variables for deployment and API configuration ([a830fdd](https://github.com/Modest-Human-Brands/mconnect-web/commit/a830fdd))
+
+### ❤️ Contributors
+
+- Shirsendu Bairagi ([@shba007](https://github.com/shba007))
+
 ## v0.0.2
 
 [compare changes](https://github.com/Modest-Human-Brands/mconnect-web/compare/v0.0.1...v0.0.2)
