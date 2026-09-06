@@ -38,7 +38,7 @@ export const DEMO_TEMPLATES: TemplateListItem[] = [
   },
 ]
 
-const BASE_URL = import.meta.env.VITE_MCONNECT_BASE_URL || ''
+const BASE_URL = import.meta.env.VUE_PUBLIC_SITE_URL || ''
 
 const DEMO_SCHEMA: TemplateSchema = {
   id: 'outreach',

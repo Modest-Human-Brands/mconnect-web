@@ -20,7 +20,7 @@ concurrency:
 env:
   REPO: ${{ github.repository }}
   VERSION: ${{ github.ref_name }}
-  # VITE_APP_BASE_URL: '/vuetemplate'
+  VITE_APP_BASE_URL: '/mconnect'
 
 jobs:
   # build-static:
