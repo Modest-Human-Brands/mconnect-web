@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&display=swap');
+@import 'tailwindcss';
+@config "../tailwind.config.ts";
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-black font-main text-white antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* accent-colored focus ring, defined once */
+:focus-visible {
+  outline: 2px solid #6672ff;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: #5945ea;
+  color: #ffffff;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+*::-webkit-scrollbar {
+  @apply block size-[6px];
+}
+*::-webkit-scrollbar-track {
+  @apply bg-dark-400;
+}
+*::-webkit-scrollbar-thumb {
+  @apply bg-dark-600;
+}

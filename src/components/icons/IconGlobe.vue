@@ -1,0 +1,11 @@
+<!-- Placeholder icon — swap for the real <IconGlobe/> when the icon set lands. -->
+<template>
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.5" />
+    <path
+      d="M3.5 12h17M12 3.5c2.4 2.4 3.6 5.4 3.6 8.5s-1.2 6.1-3.6 8.5c-2.4-2.4-3.6-5.4-3.6-8.5S9.6 5.9 12 3.5Z"
+      stroke="currentColor"
+      stroke-width="1.5"
+    />
+  </svg>
+</template>
