@@ -4,7 +4,8 @@ WORKDIR /app
 
 COPY package.json bun.lock ./
 
-ENV VUE_PUBLIC_SITE_URL=$SITE_URL
+ENV VITE_PUBLIC_SITE_URL=$SITE_URL
+ENV VITE_MCONNECT_API_URL=$API_URL
 
 RUN bun install --frozen-lockfile
 
