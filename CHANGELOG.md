@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.0.5
+
+[compare changes](https://github.com/Modest-Human-Brands/mconnect-web/compare/v0.0.4...v0.0.5)
+
+### 🩹 Fixes
+
+- Add ARG declarations for SITE_URL and API_URL in Dockerfile ([4e349a7](https://github.com/Modest-Human-Brands/mconnect-web/commit/4e349a7))
+
+### ❤️ Contributors
+
+- Shirsendu Bairagi ([@shba007](https://github.com/shba007))
+
 ## v0.0.4
 
 [compare changes](https://github.com/Modest-Human-Brands/mconnect-web/compare/v0.0.3...v0.0.4)
