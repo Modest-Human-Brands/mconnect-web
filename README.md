@@ -8,29 +8,13 @@
 
 > Web UI of MConnect
 
+<a href="https://www.producthunt.com/products/mconnect?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-mconnect" target="_blank" rel="noopener noreferrer"><img alt="MConnect - A Dynamic Email Builder from beautiful templates | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1243008&amp;theme=dark&amp;t=1788713686897"></a>
+
 - 🚀 PWA
-- ✋ Push Notification
 - 🌙 Light/Dark Mode
 - 🐋 Containerized
 - 🪄 CI/CD (Github Action)
 - 📐 Analytics
-
-## Change Placeholder Value
-
-### In package.json change the following
-
-- docker:build
-- docker:start
-
-### In github registry add Repo or Org Vars following
-
-- Vars
-  - USERNAME
-  - GH_PAT
-
-## Change the Icons and Screenshots
-
-dir public/pwa
 
 ## License
 
