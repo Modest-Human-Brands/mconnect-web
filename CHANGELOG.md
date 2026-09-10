@@ -1,5 +1,25 @@
 # Changelog
 
+## v0.0.6
+
+[compare changes](https://github.com/Modest-Human-Brands/mconnect-web/compare/v0.0.5...v0.0.6)
+
+### 🚀 Enhancements
+
+- Enhance VariableForm with array item management and improve form data initialization ([72030ae](https://github.com/Modest-Human-Brands/mconnect-web/commit/72030ae))
+
+### 💅 Refactors
+
+- Reset brand settings to default values in useEmailBuilder ([8b69029](https://github.com/Modest-Human-Brands/mconnect-web/commit/8b69029))
+
+### 📖 Documentation
+
+- Update README to remove outdated instructions and enhance product visibility ([9d43f3c](https://github.com/Modest-Human-Brands/mconnect-web/commit/9d43f3c))
+
+### ❤️ Contributors
+
+- Shirsendu Bairagi ([@shba007](https://github.com/shba007))
+
 ## v0.0.5
 
 [compare changes](https://github.com/Modest-Human-Brands/mconnect-web/compare/v0.0.4...v0.0.5)
