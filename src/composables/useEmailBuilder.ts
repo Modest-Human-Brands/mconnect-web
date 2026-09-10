@@ -17,16 +17,16 @@ export function useEmailBuilder() {
   const schema = ref<TemplateSchema | null>(null)
 
   const brand = reactive<BrandSettings>({
-    companyName: 'Modest Human Brands',
-    legalName: 'Modest Human Brands LLP',
+    companyName: '',
+    legalName: '',
     logoDataUrl: '',
     logoName: '',
-    colorPrimary: '#111827',
-    colorAccent: '#0284c7',
-    font: 'Exo2',
-    contactEmail: 'hello@modesthumanbrands.com',
-    website: 'https://modesthumanbrands.com',
-    footerNote: '© 2026 Modest Human Brands. All rights reserved.',
+    colorPrimary: '',
+    colorAccent: '',
+    font: '',
+    contactEmail: '',
+    website: '',
+    footerNote: '',
   })
 
   const formData = ref<Record<string, unknown>>({})
