@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { createEmptyArrayItem, formatKeyToLabel } from '../lib/transform'
 
 export interface VariableFieldItem {
   path: string
   label: string
   type?: string
   options?: Array<{ label: string; value: unknown }>
+  schemaBlueprint?: Record<string, unknown>
 }
 
 const props = withDefaults(
@@ -42,6 +44,22 @@ async function copyToken(tokenKey: string): Promise<void> {
   }
 }
 
+function addArrayItem(field: VariableFieldItem): void {
+  if (!field.schemaBlueprint) return
+  if (!Array.isArray(props.formData[field.path])) {
+    props.formData[field.path] = []
+  }
+  const newItem = createEmptyArrayItem(field.schemaBlueprint)
+  ;(props.formData[field.path] as Record<string, unknown>[]).push(newItem)
+}
+
+function removeArrayItem(path: string, index: number): void {
+  const arr = props.formData[path]
+  if (Array.isArray(arr)) {
+    arr.splice(index, 1)
+  }
+}
+
 const inputClass =
   'w-full rounded-md border border-dark-600 bg-dark-500 px-3 py-2.5 text-base text-white placeholder:text-light-400 focus:border-accent-500 focus:outline-none'
 </script>
@@ -63,7 +81,6 @@ const inputClass =
     <div class="space-y-4">
       <div v-for="field in visibleFieldList" :key="field.path" class="space-y-1.5">
         <label :for="field.path" class="flex items-center gap-2 text-base text-light-500">
-          <!-- Recipient / Name Icon -->
           <svg
             v-if="
               field.path.toLowerCase().includes('name') ||
@@ -79,7 +96,6 @@ const inputClass =
             <circle cx="12" cy="7" r="4" />
           </svg>
 
-          <!-- Email / Subject Icon -->
           <svg
             v-else-if="
               field.path.toLowerCase().includes('mail') ||
@@ -95,7 +111,6 @@ const inputClass =
             <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
           </svg>
 
-          <!-- Headline / Typography Icon -->
           <svg
             v-else-if="
               field.path.toLowerCase().includes('headline') ||
@@ -112,7 +127,6 @@ const inputClass =
             <line x1="12" x2="12" y1="4" y2="20" />
           </svg>
 
-          <!-- Image / Logo Icon -->
           <svg
             v-else-if="
               field.path.toLowerCase().includes('image') ||
@@ -129,7 +143,6 @@ const inputClass =
             <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
           </svg>
 
-          <!-- Message / Description Icon -->
           <svg
             v-else-if="
               field.path.toLowerCase().includes('message') ||
@@ -148,7 +161,6 @@ const inputClass =
             <line x1="10" x2="8" y1="9" y2="9" />
           </svg>
 
-          <!-- CTA / Click Icon -->
           <svg
             v-else-if="
               field.path.toLowerCase().includes('cta') ||
@@ -163,7 +175,6 @@ const inputClass =
             <path d="m3 3 7.07 16.97 2.51-7.39 7.39-2.51L3 3z" />
           </svg>
 
-          <!-- Category / Tag Icon -->
           <svg
             v-else-if="
               field.path.toLowerCase().includes('category') ||
@@ -181,7 +192,6 @@ const inputClass =
             <path d="M7 7h.01" />
           </svg>
 
-          <!-- URL / Link Icon -->
           <svg
             v-else-if="
               field.path.toLowerCase().includes('url') || field.path.toLowerCase().includes('link')
@@ -196,7 +206,6 @@ const inputClass =
             <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
           </svg>
 
-          <!-- Default Generic Text Icon -->
           <svg
             v-else
             class="size-4 shrink-0 text-light-400"
@@ -236,6 +245,84 @@ const inputClass =
             >
               <polyline points="6 9 12 15 18 9" />
             </svg>
+          </div>
+        </div>
+
+        <!-- Repeater for Array of Objects -->
+        <div
+          v-else-if="field.type === 'array<object>'"
+          class="space-y-3 rounded-lg border border-dark-600 bg-dark-600/30 p-3.5"
+        >
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-medium text-light-400">
+              {{ ((formData[field.path] as any[]) || []).length }}
+              {{ ((formData[field.path] as any[]) || []).length === 1 ? 'item' : 'items' }}
+            </span>
+            <button
+              type="button"
+              class="flex items-center gap-1 rounded border border-dark-600 bg-dark-500 px-2.5 py-1 text-xs font-medium text-light-300 transition-colors hover:bg-dark-400 hover:text-white"
+              @click="addArrayItem(field)"
+            >
+              + Add Item
+            </button>
+          </div>
+
+          <div
+            v-if="!(formData[field.path] as any[])?.length"
+            class="rounded border border-dashed border-dark-600 p-3 text-center text-xs text-light-400"
+          >
+            No entries added. Click "+ Add Item" above.
+          </div>
+
+          <div
+            v-for="(item, idx) in formData[field.path] as Record<string, any>[]"
+            :key="idx"
+            class="space-y-3 rounded-md border border-dark-600 bg-dark-500 p-3"
+          >
+            <div class="flex items-center justify-between border-b border-dark-600/60 pb-1.5">
+              <span class="text-xs font-semibold text-light-300">#{{ idx + 1 }}</span>
+              <button
+                type="button"
+                class="text-xs text-alert-400 hover:text-alert-300"
+                @click="removeArrayItem(field.path, idx)"
+              >
+                Remove
+              </button>
+            </div>
+
+            <div
+              v-for="(subType, subKey) in field.schemaBlueprint"
+              :key="String(subKey)"
+              class="space-y-1"
+            >
+              <label class="block text-xs text-light-400">
+                {{ formatKeyToLabel(String(subKey)) }}
+              </label>
+              <textarea
+                v-if="
+                  String(subKey).toLowerCase().includes('description') ||
+                  String(subKey).toLowerCase().includes('message')
+                "
+                v-model="item[subKey]"
+                rows="2"
+                :class="inputClass"
+                class="text-sm resize-none"
+              />
+              <input
+                v-else-if="subType === 'number' || subType === 'integer'"
+                v-model.number="item[subKey]"
+                type="number"
+                :class="inputClass"
+                class="text-sm"
+              />
+              <input
+                v-else
+                v-model="item[subKey]"
+                type="text"
+                :class="inputClass"
+                class="text-sm"
+              />
+            </div>
           </div>
         </div>
 

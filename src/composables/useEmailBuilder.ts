@@ -72,7 +72,7 @@ export function useEmailBuilder() {
     try {
       schema.value = await fetchTemplateSchema(id)
       const transformedFields = transformSchema(schema.value.variables || {})
-      formData.value = initFormDataFromSchema(transformedFields)
+      formData.value = initFormDataFromSchema(transformedFields, schema.value.placeholders)
       await refreshPreviewNow()
     } catch (err: unknown) {
       status.value = 'error'

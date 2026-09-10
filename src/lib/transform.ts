@@ -91,7 +91,12 @@ export function flattenObject(obj: Record<string, unknown>, prefix = ''): Record
   const result: Record<string, unknown> = {}
   for (const [key, value] of Object.entries(obj)) {
     const path = prefix ? `${prefix}.${key}` : key
-    if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
+    if (
+      value !== null &&
+      typeof value === 'object' &&
+      !Array.isArray(value) &&
+      !(value instanceof Date)
+    ) {
       Object.assign(result, flattenObject(value as Record<string, unknown>, path))
     } else {
       result[path] = value
@@ -100,18 +105,55 @@ export function flattenObject(obj: Record<string, unknown>, prefix = ''): Record
   return result
 }
 
-export function initFormDataFromSchema(fields: TransformedField[]): Record<string, unknown> {
+export function createEmptyArrayItem(blueprint?: Record<string, unknown>): Record<string, unknown> {
+  if (!blueprint) return {}
+  const item: Record<string, unknown> = {}
+  for (const [key, type] of Object.entries(blueprint)) {
+    if (type === 'number' || type === 'integer') {
+      item[key] = 0
+    } else if (type === 'boolean') {
+      item[key] = false
+    } else if (type === 'date') {
+      item[key] = new Date().toISOString().slice(0, 10)
+    } else {
+      item[key] = ''
+    }
+  }
+  return item
+}
+
+export function initFormDataFromSchema(
+  fields: TransformedField[],
+  placeholders?: Record<string, unknown>,
+): Record<string, unknown> {
+  const flatPlaceholders = placeholders ? flattenObject(placeholders) : {}
   const initialData: Record<string, unknown> = {}
 
   for (const field of fields) {
+    if (flatPlaceholders[field.path] !== undefined) {
+      const val = flatPlaceholders[field.path]
+      if (val instanceof Date) {
+        initialData[field.path] = val.toISOString().slice(0, 10)
+      } else if (Array.isArray(val)) {
+        initialData[field.path] = JSON.parse(JSON.stringify(val))
+      } else if (typeof val === 'object' && val !== null) {
+        initialData[field.path] = JSON.parse(JSON.stringify(val))
+      } else {
+        initialData[field.path] = val
+      }
+      continue
+    }
+
     if (field.type === 'array<object>') {
       initialData[field.path] = []
     } else if (field.type === 'array<string>') {
       initialData[field.path] = []
     } else if (field.type === 'boolean') {
       initialData[field.path] = false
-    } else if (field.type === 'number') {
+    } else if (field.type === 'number' || field.type === 'integer') {
       initialData[field.path] = null
+    } else if (field.type === 'record') {
+      initialData[field.path] = {}
     } else {
       initialData[field.path] = ''
     }
@@ -225,7 +267,7 @@ export async function retransformTemplateData(
   return templateData
 }
 
-function formatKeyToLabel(key: string): string {
+export function formatKeyToLabel(key: string): string {
   return key
     .replace(/([A-Z])/g, ' $1')
     .replace(/^./, (str) => str.toUpperCase())
