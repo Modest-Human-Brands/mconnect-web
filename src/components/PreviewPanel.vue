@@ -9,12 +9,11 @@ const props = defineProps<{
 
 const statusLabel = ref<string>('')
 const viewportMode = ref<'desktop' | 'tablet' | 'mobile'>('desktop')
-const showSourceCode = ref(false)
 
 const viewportWidthClass = {
-  desktop: 'w-full max-w-[660px]',
-  tablet: 'w-full max-w-[480px]',
-  mobile: 'w-full max-w-[360px]',
+  desktop: 'w-[720px] shrink-0',
+  tablet: 'w-[480px] shrink-0',
+  mobile: 'w-[360px] shrink-0',
 }
 
 const styledContentHtml = computed(() => {
@@ -184,7 +183,9 @@ defineExpose({ copyRich, copySource })
     </div>
 
     <!-- Email Canvas -->
-    <div class="relative mt-3 flex flex-1 items-start justify-center overflow-y-auto py-2">
+    <div
+      class="relative mt-3 flex flex-1 items-start justify-center overflow-x-auto overflow-y-auto py-2"
+    >
       <!-- <div v-if="!hasTemplate"
         class="flex h-96 w-full flex-col items-center justify-center gap-2 rounded-xl border border-dark-600 text-center"
         style="background-image: repeating-linear-gradient(115deg, #070707 0px, #070707 34px, #18181a 34px, #18181a 68px)">
