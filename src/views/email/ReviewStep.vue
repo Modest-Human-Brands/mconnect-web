@@ -2,12 +2,11 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { listAccounts, type EmailAccount } from '@/api/accounts'
-
 import EmailFrame from '@/components/email/EmailFrame.vue'
 import WizardShell from '@/components/layout/WizardShell.vue'
 import UiButton from '@/components/ui/UiButton.vue'
 import UiField from '@/components/ui/UiField.vue'
+import { useAccountsStore } from '@/stores/accounts'
 import { useCrmStore } from '@/stores/crm'
 import { EMAIL_STEPS, useEmailWizardStore } from '@/stores/emailWizard'
 
@@ -15,14 +14,12 @@ const router = useRouter()
 const wizard = useEmailWizardStore()
 const crm = useCrmStore()
 
-const accounts = ref<EmailAccount[]>([])
+const accountStore = useAccountsStore()
+const accounts = computed(() => accountStore.accounts.filter((a) => a.status === 'connected'))
 
 onMounted(() => {
   void crm.loadContacts()
-  // Optional: without the accounts API the server falls back to its default mailbox.
-  listAccounts()
-    .then((list) => (accounts.value = list.filter((a) => a.status === 'connected')))
-    .catch(() => undefined)
+  void accountStore.load()
 })
 
 const fromAccount = computed(

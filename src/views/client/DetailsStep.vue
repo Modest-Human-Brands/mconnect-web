@@ -3,17 +3,29 @@ import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 import WizardShell from '@/components/layout/WizardShell.vue'
+import UiAvatar from '@/components/ui/UiAvatar.vue'
 import UiButton from '@/components/ui/UiButton.vue'
 import UiField from '@/components/ui/UiField.vue'
 import ClientPreviewCard from '@/components/wizard/ClientPreviewCard.vue'
 import { STAGES } from '@/domain/crm'
-import { CLIENT_STEPS, SOURCE_LABEL, useClientWizardStore } from '@/stores/clientWizard'
+import {
+  CLIENT_STEPS,
+  SOURCE_LABEL,
+  useClientWizardStore,
+  type ClientSource,
+} from '@/stores/clientWizard'
 import { useCrmStore } from '@/stores/crm'
 
 const router = useRouter()
 const wizard = useClientWizardStore()
 const crm = useCrmStore()
 const form = wizard.form
+
+const SOURCES = Object.entries(SOURCE_LABEL) as [ClientSource, string][]
+
+function setSource(label: string | number) {
+  wizard.source = SOURCES.find(([, text]) => text === label)?.[0] ?? 'manual'
+}
 
 const fromEmail = computed(() => wizard.source === 'email')
 const senders = computed(() => {
@@ -58,16 +70,26 @@ const valid = computed(() =>
         @update:model-value="pickSender"
       />
       <div class="grid grid-cols-3 gap-3">
+        <UiField model-value="" label="Client id" placeholder="Auto" suffix="Auto" readonly />
         <UiField v-model="form.company" label="Company" placeholder="Lotus Interiors" />
-        <UiField v-model="form.contact" label="Contact" placeholder="Anita Rao" />
-        <UiField v-model="form.city" label="City" placeholder="Pune" />
         <UiField
-          v-model="form.email"
-          label="Email"
-          type="email"
-          placeholder="anita@lotus.in"
-          class="col-span-2"
+          v-model="form.contact"
+          label="Contact"
+          placeholder="Anita Rao"
+          :badge="form.role"
         />
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <UiField
+          :model-value="SOURCE_LABEL[wizard.source]"
+          label="Source"
+          :options="Object.values(SOURCE_LABEL)"
+          @update:model-value="setSource"
+        />
+        <UiField v-model="form.city" label="City" placeholder="Pune" />
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <UiField v-model="form.email" label="Email" type="email" placeholder="anita@lotus.in" />
         <UiField v-model="form.phone" label="Phone" type="tel" placeholder="+91 98765 43210" />
       </div>
       <p v-if="!reachable" class="text-xs text-muted">Add an email address or a phone number.</p>
@@ -76,18 +98,29 @@ const valid = computed(() =>
     <section class="flex flex-col gap-3">
       <h2 class="text-xs text-muted">Deal</h2>
       <div class="grid grid-cols-3 gap-3">
-        <UiField
-          v-model="form.project"
-          label="Project"
-          placeholder="Brand film"
-          class="col-span-2"
-        />
+        <UiField v-model="form.project" label="Project" placeholder="Brand film" />
         <UiField v-model="form.stage" label="Stage" :options="STAGES" />
+        <UiField v-model="form.value" label="Value" placeholder="Rs 2,40,000" />
       </div>
-      <p class="text-xs text-muted">The project is saved as a tag on the client.</p>
+      <p class="text-xs text-muted">
+        The project is saved as a tag. Role and value are not saved yet.
+      </p>
     </section>
 
-    <template #note>{{ SOURCE_LABEL[wizard.source] }}</template>
+    <section class="flex flex-col gap-3">
+      <h2 class="text-xs text-muted">Owner</h2>
+      <p class="text-sm font-medium text-body">Team member</p>
+      <div class="flex items-center gap-3 rounded-md border border-primary-400 bg-raised px-3 py-2">
+        <UiAvatar label="ME" size="sm" />
+        <div class="min-w-0 flex-1">
+          <p class="truncate text-sm font-medium text-white">You</p>
+          <p class="truncate text-xs text-muted">The signed-in team member. Not saved yet.</p>
+        </div>
+        <button type="button" class="text-xs font-medium text-primary-400" disabled>Change</button>
+      </div>
+    </section>
+
+    <template #note>Draft saved just now</template>
     <template #actions>
       <UiButton variant="ghost" @click="router.push(CLIENT_STEPS[0].path)">Back</UiButton>
       <UiButton :disabled="!valid" @click="router.push(CLIENT_STEPS[2].path)">Review</UiButton>
@@ -96,9 +129,11 @@ const valid = computed(() =>
       <ClientPreviewCard
         :company="form.company"
         :contact="form.contact"
+        :role="form.role"
         :city="form.city"
         :stage="form.stage"
         :project="form.project"
+        :value="form.value"
       />
     </template>
   </WizardShell>

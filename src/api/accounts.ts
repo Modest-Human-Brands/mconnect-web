@@ -58,9 +58,12 @@ export async function connectImap(input: ImapAccountInput): Promise<EmailAccount
 }
 
 /** Returns the provider consent URL; the backend handles the callback and redirects back here. */
-export async function startOAuth(provider: 'google' | 'microsoft'): Promise<string> {
+export async function startOAuth(
+  provider: 'google' | 'microsoft',
+  redirectPath: string,
+): Promise<string> {
   // The API only accepts a relative path or a URL on its own origin.
-  const redirect = encodeURIComponent('/onboarding')
+  const redirect = encodeURIComponent(redirectPath)
   const data = await ok<{ url: string }>(
     await request(`/oauth/${provider}/start?redirect=${redirect}`),
     'Could not start sign-in',

@@ -88,6 +88,8 @@ async function add() {
         :city="form.city"
         :stage="form.stage"
         :project="form.project"
+        :role="form.role"
+        :value="form.value"
       />
     </template>
   </WizardShell>

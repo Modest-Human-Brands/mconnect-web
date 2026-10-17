@@ -10,6 +10,8 @@ const router = createRouter({
   routes: [
     { path: '/', redirect: () => (useCrmStore().onboarded ? '/clients' : '/onboarding') },
     { path: '/onboarding', component: () => import('@/views/OnboardingView.vue') },
+    { path: '/onboarding/email', component: () => import('@/views/onboarding/EmailStep.vue') },
+    { path: '/onboarding/done', component: () => import('@/views/onboarding/DoneStep.vue') },
     { path: '/clients', component: () => import('@/views/ClientsView.vue') },
     { path: '/inbox/:id?', component: () => import('@/views/InboxView.vue') },
 

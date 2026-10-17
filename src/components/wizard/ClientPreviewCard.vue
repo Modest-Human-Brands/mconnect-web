@@ -9,9 +9,11 @@ defineProps<{
   city: string
   stage: string
   project: string
+  role?: string
+  value?: string
 }>()
 
-// The API has no deal value, owner or follow-up data yet, so those show placeholders.
+// The API has no owner or follow-up data yet, so those show placeholders.
 const EMPTY = '-'
 </script>
 
@@ -24,7 +26,10 @@ const EMPTY = '-'
       <div class="min-w-0">
         <p class="truncate text-base font-medium text-white">{{ company || 'New client' }}</p>
         <p class="truncate text-xs text-muted">
-          {{ [contact, city].filter(Boolean).join(' · ') || 'Contact' }}
+          {{
+            [[contact, role].filter(Boolean).join(', '), city].filter(Boolean).join(' · ') ||
+            'Contact'
+          }}
         </p>
       </div>
     </div>
@@ -47,7 +52,7 @@ const EMPTY = '-'
       </div>
       <div>
         <dt class="text-xs text-muted">Value</dt>
-        <dd class="text-white">{{ EMPTY }}</dd>
+        <dd class="text-white">{{ value || EMPTY }}</dd>
       </div>
       <div>
         <dt class="text-xs text-muted">Owner</dt>

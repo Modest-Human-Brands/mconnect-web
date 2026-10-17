@@ -21,6 +21,9 @@ function emptyForm() {
   return {
     company: '',
     contact: '',
+    // Role and deal value are shown in the design but the API cannot store them yet.
+    role: 'Founder',
+    value: '',
     email: '',
     phone: '',
     city: '',
