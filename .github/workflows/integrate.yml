@@ -36,8 +36,8 @@ jobs:
       - name: ⚙️ Build Artifact
         run: bun run build
 
-      # - name: ✅ Test Code
-      #   run: bun run test
+      - name: ✅ Test Code
+        run: bun run test:unit --run
 
       - name: 🧹 Lint Code
         run: bun run lint || echo "Linting failed, but continuing"

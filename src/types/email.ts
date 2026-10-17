@@ -21,19 +21,6 @@ export interface EnumOption {
   label: string
 }
 
-export interface BrandSettings {
-  companyName: string
-  legalName: string
-  logoDataUrl: string
-  logoName: string
-  colorPrimary: string
-  colorAccent: string
-  font: string
-  contactEmail: string
-  website: string
-  footerNote: string
-}
-
 export interface PreviewRequestPayload {
   templateId: string
   variables: Record<string, unknown>
@@ -42,5 +29,3 @@ export interface PreviewRequestPayload {
 export interface PreviewResponse {
   contentHtml: string
 }
-
-export type BuilderStatus = 'idle' | 'loading-templates' | 'loading-schema' | 'rendering' | 'error'

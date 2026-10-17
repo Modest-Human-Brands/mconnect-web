@@ -1,4 +1,4 @@
-import type { BrandSettings, EnumOption, SchemaNodeType } from '../types/email'
+import type { EnumOption, SchemaNodeType } from '@/types/email'
 
 export interface TransformedField {
   path: string
@@ -211,60 +211,9 @@ export function pruneEmpty(val: unknown): unknown {
   return val
 }
 
-export type FieldResolver = (id: string) => Promise<unknown>
-export async function retransformTemplateData(
-  formData: Record<string, unknown>,
-  brand: BrandSettings,
-  resolvers: Record<string, FieldResolver> = {},
-): Promise<Record<string, unknown>> {
-  const userVariables = (pruneEmpty(unflattenPayload(formData)) as Record<string, unknown>) || {}
-
-  for (const [key, resolve] of Object.entries(resolvers)) {
-    const current = userVariables[key]
-    if (current === undefined || current === null || current === '') continue
-
-    let targetId: string | undefined
-    if (typeof current === 'object' && current !== null) {
-      const obj = current as Record<string, unknown>
-      targetId =
-        typeof obj.id === 'string' ? obj.id : typeof obj.value === 'string' ? obj.value : undefined
-    } else if (typeof current === 'string') {
-      targetId = current
-    }
-
-    if (!targetId) continue
-
-    try {
-      userVariables[key] = await resolve(targetId)
-    } catch (err) {
-      console.error(`[retransformTemplateData] Failed to resolve "${key}" (${targetId}):`, err)
-    }
-  }
-
-  const organization = pruneEmpty({
-    name: brand.companyName || undefined,
-    legalName: brand.legalName || brand.companyName || undefined,
-    website: brand.website || undefined,
-    contactEmail: brand.contactEmail || undefined,
-    branding: {
-      logo: brand.logoDataUrl || undefined,
-      color: {
-        primary: brand.colorPrimary || undefined,
-        accent: brand.colorAccent || undefined,
-      },
-      font: brand.font || undefined,
-    },
-  })
-
-  const templateData: Record<string, unknown> = {
-    ...userVariables,
-  }
-
-  if (organization) {
-    templateData.organization = organization
-  }
-
-  return templateData
+/** Turns the flat form model into the nested `variables` object the preview endpoint expects. */
+export function buildVariables(formData: Record<string, unknown>): Record<string, unknown> {
+  return (pruneEmpty(unflattenPayload(formData)) as Record<string, unknown>) || {}
 }
 
 export function formatKeyToLabel(key: string): string {

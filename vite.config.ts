@@ -1,11 +1,14 @@
 import { fileURLToPath, URL } from 'node:url'
 
-import { defineConfig, lazyPlugins } from 'vite-plus'
+import { defineConfig, lazyPlugins, loadEnv } from 'vite-plus'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import tailwindcss from '@tailwindcss/vite'
+import Unfonts from 'unplugin-fonts/vite'
+import Icons from 'unplugin-icons/vite'
 
-// https://vite.dev/config/
+const env = loadEnv('development', process.cwd(), 'VITE_')
+
 export default defineConfig({
   staged: {
     '*': 'vp check --fix',
@@ -96,7 +99,28 @@ export default defineConfig({
       },
     ],
   },
-  plugins: lazyPlugins(() => [vue(), vueDevTools(), tailwindcss()]),
+  plugins: lazyPlugins(() => [
+    vue(),
+    vueDevTools(),
+    tailwindcss(),
+    Icons({ compiler: 'vue3', defaultClass: 'icon' }),
+    Unfonts({
+      fontsource: {
+        families: [
+          { name: 'Geist', variable: { wght: true }, fallback: { category: 'sans-serif' } },
+          { name: 'Geist Mono', variable: { wght: true }, fallback: { category: 'monospace' } },
+        ],
+      },
+    }),
+  ]),
+  server: {
+    proxy: {
+      '/api': {
+        target: env.VITE_MCONNECT_API_URL || 'http://localhost:3001',
+        changeOrigin: true,
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
