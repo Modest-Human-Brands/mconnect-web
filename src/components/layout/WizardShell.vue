@@ -64,7 +64,9 @@ async function cancel() {
 
     <aside class="flex min-w-0 flex-1 flex-col gap-3 px-6 py-6" aria-label="Preview">
       <p class="text-sm font-medium text-muted">{{ previewLabel }}</p>
-      <div class="no-scrollbar min-h-0 flex-1 overflow-y-auto"><slot name="preview" /></div>
+      <div class="no-scrollbar flex min-h-0 flex-1 flex-col overflow-y-auto *:my-auto">
+        <slot name="preview" />
+      </div>
     </aside>
   </div>
 </template>
