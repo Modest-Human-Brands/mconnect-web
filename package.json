@@ -1,6 +1,6 @@
 {
   "name": "mconnect-web",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": true,
   "description": "Web UI of MConnect",
   "license": "MIT",

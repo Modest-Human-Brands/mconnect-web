@@ -2,6 +2,22 @@
 
 ## v0.0.6
 
+[compare changes](https://github.com/Modest-Human-Brands/mconnect-web/compare/v0.0.6...v0.0.6)
+
+### 🚀 Enhancements
+
+- Rebuild web UI to the MConnect Figma design on the real API ([c37c686](https://github.com/Modest-Human-Brands/mconnect-web/commit/c37c686))
+
+### 🏡 Chore
+
+- Update package version and dependencies ([541111e](https://github.com/Modest-Human-Brands/mconnect-web/commit/541111e))
+
+### ❤️ Contributors
+
+- Shirsendu Bairagi ([@shba007](https://github.com/shba007))
+
+## v0.0.6
+
 [compare changes](https://github.com/Modest-Human-Brands/mconnect-web/compare/v0.0.5...v0.0.6)
 
 ### 🚀 Enhancements
