@@ -99,7 +99,6 @@ function choose(key: ClientSource) {
         :city="wizard.form.city"
         :stage="wizard.form.stage"
         :project="wizard.form.project"
-        :email="wizard.form.email"
       />
     </template>
   </WizardShell>

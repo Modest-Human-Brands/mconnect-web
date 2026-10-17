@@ -99,7 +99,6 @@ const valid = computed(() =>
         :city="form.city"
         :stage="form.stage"
         :project="form.project"
-        :email="form.email"
       />
     </template>
   </WizardShell>
