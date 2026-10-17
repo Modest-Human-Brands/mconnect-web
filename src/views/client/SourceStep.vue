@@ -76,7 +76,7 @@ function choose(key: ClientSource) {
           :aria-pressed="wizard.source === source.key"
           @click="choose(source.key)"
         >
-          <span class="flex size-10 items-center justify-center rounded-full bg-overlay text-white">
+          <span class="flex size-8 items-center justify-center rounded-full bg-overlay text-white">
             <component :is="source.icon" class="size-4" aria-hidden="true" />
           </span>
           <span class="flex min-w-0 flex-1 flex-col">

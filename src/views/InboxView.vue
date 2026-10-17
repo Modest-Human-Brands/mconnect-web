@@ -123,9 +123,9 @@ function download(message: EmailMessage) {
                 v-if="item.avatarUrl"
                 :src="item.avatarUrl"
                 alt=""
-                class="size-10 shrink-0 rounded-full object-cover"
+                class="size-8 shrink-0 rounded-full object-cover"
               />
-              <UiAvatar v-else :label="initialsOf(item.senderName)[0] ?? '?'" size="lg" />
+              <UiAvatar v-else :label="initialsOf(item.senderName)[0] ?? '?'" size="md" />
               <span class="flex min-w-0 flex-1 flex-col">
                 <span class="flex items-baseline justify-between gap-2">
                   <span class="truncate text-sm font-medium text-white">{{ item.senderName }}</span>
@@ -156,7 +156,7 @@ function download(message: EmailMessage) {
       >
         <header class="flex items-start justify-between">
           <div class="flex items-center gap-3">
-            <UiAvatar :label="initialsOf(selected.senderName)[0] ?? '?'" size="lg" />
+            <UiAvatar :label="initialsOf(selected.senderName)[0] ?? '?'" size="md" />
             <div>
               <p class="text-sm font-medium text-white">{{ selected.senderName }}</p>
               <p class="text-xs text-muted">{{ selected.senderEmail }}</p>
@@ -180,7 +180,6 @@ function download(message: EmailMessage) {
           </UiButton>
         </div>
 
-        <h2 class="text-base font-medium text-white">{{ selected.subject }}</h2>
         <EmailFrame :html="selected.contentHtml" class="h-180" />
       </section>
 
@@ -196,7 +195,7 @@ function download(message: EmailMessage) {
 
         <div class="flex flex-col gap-3 rounded-lg border border-line bg-raised p-4">
           <div class="flex items-center gap-3">
-            <UiAvatar :label="initialsOf(selected.senderName)" size="lg" />
+            <UiAvatar :label="initialsOf(selected.senderName)" size="md" />
             <div class="min-w-0">
               <p class="truncate text-sm font-medium text-white">{{ selected.senderName }}</p>
               <p class="truncate text-xs text-muted">{{ selected.senderEmail }}</p>

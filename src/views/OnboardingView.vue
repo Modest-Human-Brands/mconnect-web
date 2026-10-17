@@ -145,7 +145,7 @@ async function finish() {
         <h2 id="email-heading" class="eyebrow">Email</h2>
         <template v-for="item in PROVIDERS" :key="item.key">
           <div class="flex items-center gap-3 rounded-lg border border-line bg-raised p-4">
-            <UiAvatar :label="item.initial" size="lg" />
+            <UiAvatar :label="item.initial" size="md" />
             <div class="min-w-0 flex-1">
               <p class="text-sm font-medium text-white">{{ item.title }}</p>
               <p class="truncate text-xs text-muted">
@@ -213,7 +213,7 @@ async function finish() {
       <section class="flex flex-col gap-3" aria-labelledby="calls-heading">
         <h2 id="calls-heading" class="eyebrow">Calls and meetings</h2>
         <div class="flex items-center gap-3 rounded-lg border border-line bg-raised p-4">
-          <UiAvatar label="C" size="lg" />
+          <UiAvatar label="C" size="md" />
           <div class="min-w-0 flex-1">
             <p class="text-sm font-medium text-white">Call history</p>
             <p class="text-xs text-muted">
@@ -224,7 +224,7 @@ async function finish() {
           <UiButton variant="secondary" disabled>Import</UiButton>
         </div>
         <div class="flex items-center gap-3 rounded-lg border border-line bg-raised p-4">
-          <UiAvatar label="V" size="lg" />
+          <UiAvatar label="V" size="md" />
           <div class="min-w-0 flex-1">
             <p class="text-sm font-medium text-white">Web meetings</p>
             <p class="text-xs text-muted">Video and voice rooms built in, no extra app</p>

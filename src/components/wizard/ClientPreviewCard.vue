@@ -15,10 +15,10 @@ defineProps<{
 
 <template>
   <div
-    class="mx-auto flex w-full max-w-sm flex-col gap-4 rounded-xl border border-line bg-raised p-5"
+    class="mx-auto flex w-full max-w-91.5 flex-col gap-4 rounded-xl border border-line bg-raised p-5"
   >
     <div class="flex items-center gap-3">
-      <UiAvatar :label="initialsOf(company || 'New client')" size="lg" />
+      <UiAvatar :label="initialsOf(company || 'New client')" size="md" />
       <div class="min-w-0">
         <p class="truncate text-sm font-medium text-white">{{ company || 'New client' }}</p>
         <p class="truncate text-xs text-muted">
