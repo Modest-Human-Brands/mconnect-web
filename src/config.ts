@@ -5,6 +5,8 @@ export interface RuntimeConfig {
   organizationId?: string
   /** Notion page id of the signed-in team member, attached to outbound emails. */
   userId?: string
+  /** Sent as `x-api-key` on every API request. Injected at container start, never baked into a production bundle. */
+  apiKey?: string
 }
 
 declare global {
@@ -26,7 +28,8 @@ function buildConfig(): RuntimeConfig {
     apiBaseUrl: import.meta.env.DEV ? undefined : import.meta.env.VITE_MCONNECT_API_URL,
     siteUrl: import.meta.env.VITE_PUBLIC_SITE_URL,
     organizationId: import.meta.env.VITE_DEFAULT_ORGANIZATION_ID,
-    userId: import.meta.env.VITE_MCONNECT_USER_ID,
+    userId: import.meta.env.DEV ? import.meta.env.VITE_MCONNECT_USER_ID : undefined,
+    apiKey: import.meta.env.DEV ? import.meta.env.VITE_MCONNECT_API_KEY : undefined,
   }
 }
 
@@ -41,6 +44,7 @@ export function readConfig(
     siteUrl: pickConfig(runtime?.siteUrl, build.siteUrl),
     organizationId: pickConfig(runtime?.organizationId, build.organizationId),
     userId: pickConfig(runtime?.userId, build.userId),
+    apiKey: pickConfig(runtime?.apiKey, build.apiKey),
   }
 }
 

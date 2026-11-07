@@ -31,3 +31,13 @@ describe('readConfig', () => {
     expect(readConfig({ apiBaseUrl: '  ' }, { apiBaseUrl: '/x' }).apiBaseUrl).toBe('/x')
   })
 })
+describe('apiKey', () => {
+  it('comes from the runtime config written at container start', () => {
+    expect(readConfig({ apiKey: 'runtime-key' }, {}).apiKey).toBe('runtime-key')
+  })
+
+  it('falls back to the build value, and is empty when unset', () => {
+    expect(readConfig(undefined, { apiKey: 'dev-key' }).apiKey).toBe('dev-key')
+    expect(readConfig(undefined, {}).apiKey).toBe('')
+  })
+})

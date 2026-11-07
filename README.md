@@ -30,6 +30,7 @@ Run the MConnect API (`code-connect`, Nitro) first; it listens on port 3001 by d
 | `VITE_MCONNECT_API_URL`        | MConnect API origin. In development it is the target of the `/api` proxy; in production the API origin (`API_URL`). |
 | `VITE_DEFAULT_ORGANIZATION_ID` | Sent as the `x-org-id` header. Required to list and send emails.                                                    |
 | `VITE_MCONNECT_USER_ID`        | Notion id of the sending team member (optional).                                                                    |
+| `VITE_MCONNECT_API_KEY`        | Sent as `x-api-key`. Dev reads it from `.env`; in production set it on the running container (runtime `config.js`). |
 
 In Docker the same variables are written to `config.js` when the container starts.
 

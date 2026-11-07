@@ -1,4 +1,4 @@
-import { ApiError } from '@/api/mconnect'
+import { ApiError, keyHeaders } from '@/api/mconnect'
 import { config } from '@/config'
 
 export type EmailProvider = 'google' | 'microsoft' | 'imap'
@@ -29,7 +29,11 @@ function request(path: string, init: RequestInit = {}): Promise<Response> {
   }
   return fetch(`${config.apiBaseUrl.replace(/\/$/, '')}/api/email/accounts${path}`, {
     ...init,
-    headers: { 'Content-Type': 'application/json', 'x-org-id': config.organizationId },
+    headers: {
+      'Content-Type': 'application/json',
+      ...keyHeaders(),
+      'x-org-id': config.organizationId,
+    },
   })
 }
 

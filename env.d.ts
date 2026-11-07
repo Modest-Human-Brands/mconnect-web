@@ -7,6 +7,7 @@ interface ImportMetaEnv {
   readonly VITE_MCONNECT_API_URL?: string
   readonly VITE_DEFAULT_ORGANIZATION_ID?: string
   readonly VITE_MCONNECT_USER_ID?: string
+  readonly VITE_MCONNECT_API_KEY?: string
 }
 
 interface ImportMeta {

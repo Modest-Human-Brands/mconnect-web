@@ -30,12 +30,17 @@ function url(path: string): string {
   return `${config.apiBaseUrl.replace(/\/$/, '')}/api${path}`
 }
 
+/** Headers every API request carries: the shared key, when one is configured. */
+export function keyHeaders(): Record<string, string> {
+  return config.apiKey ? { 'x-api-key': config.apiKey } : {}
+}
+
 /** Endpoints scoped to an organization require the `x-org-id` header. */
 function orgHeaders(): Record<string, string> {
   if (!config.organizationId) {
     throw new ApiError('Set VITE_DEFAULT_ORGANIZATION_ID to load or send emails.', 400)
   }
-  return { 'x-org-id': config.organizationId }
+  return { ...keyHeaders(), 'x-org-id': config.organizationId }
 }
 
 async function failure(res: Response, fallback: string): Promise<ApiError> {
@@ -49,8 +54,12 @@ async function failure(res: Response, fallback: string): Promise<ApiError> {
   return new ApiError(detail || `${fallback} (${res.status})`, res.status)
 }
 
-async function getJson<T>(path: string, fallback: string, headers?: HeadersInit): Promise<T> {
-  const res = await fetch(url(path), { headers })
+async function getJson<T>(
+  path: string,
+  fallback: string,
+  headers?: Record<string, string>,
+): Promise<T> {
+  const res = await fetch(url(path), { headers: { ...keyHeaders(), ...headers } })
   if (!res.ok) throw await failure(res, fallback)
   return res.json() as Promise<T>
 }
@@ -72,7 +81,7 @@ export async function renderPreview(
 ): Promise<PreviewResponse> {
   const res = await fetch(url('/interaction/email/template/preview'), {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...keyHeaders() },
     body: JSON.stringify(payload),
     signal,
   })
@@ -114,7 +123,7 @@ export async function fetchContacts(limit = 200): Promise<Contact[]> {
 export async function saveContact(input: ContactInput): Promise<ContactSaveResult> {
   const res = await fetch(url('/contacts'), {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...keyHeaders() },
     body: JSON.stringify(input),
   })
   if (!res.ok) throw await failure(res, 'Failed to save the client')
