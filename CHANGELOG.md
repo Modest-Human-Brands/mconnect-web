@@ -1,5 +1,39 @@
 # Changelog
 
+## v0.0.7
+
+[compare changes](https://github.com/Modest-Human-Brands/mconnect-web/compare/v0.0.6...v0.0.7)
+
+### 🚀 Enhancements
+
+- Rebuild web UI to the MConnect Figma design on the real API ([c37c686](https://github.com/Modest-Human-Brands/mconnect-web/commit/c37c686))
+- Onboarding email setup and connected steps, new-client details per design ([65fa32f](https://github.com/Modest-Human-Brands/mconnect-web/commit/65fa32f))
+- Add apiKey support in runtime config and API requests ([d4aff06](https://github.com/Modest-Human-Brands/mconnect-web/commit/d4aff06))
+
+### 🩹 Fixes
+
+- Cover x-api-key header on API requests ([1e25c2d](https://github.com/Modest-Human-Brands/mconnect-web/commit/1e25c2d))
+
+### 🏡 Chore
+
+- Update package version and dependencies ([541111e](https://github.com/Modest-Human-Brands/mconnect-web/commit/541111e))
+
+### 🎨 Styles
+
+- Align avatar sizes and inbox header with the Figma frames ([3f5f00c](https://github.com/Modest-Human-Brands/mconnect-web/commit/3f5f00c))
+- Match the new client preview card design ([fb04fea](https://github.com/Modest-Human-Brands/mconnect-web/commit/fb04fea))
+- Vertically center wizard previews ([d48f47b](https://github.com/Modest-Human-Brands/mconnect-web/commit/d48f47b))
+
+### 🤖 CI
+
+- **release:** Update version ([1c4a51b](https://github.com/Modest-Human-Brands/mconnect-web/commit/1c4a51b))
+- **release:** Update version ([195e391](https://github.com/Modest-Human-Brands/mconnect-web/commit/195e391))
+
+### ❤️ Contributors
+
+- Shirsendu Bairagi ([@shba007](https://github.com/shba007))
+- Shba007 ([@shba007](https://github.com/shba007))
+
 ## v0.0.6
 
 [compare changes](https://github.com/Modest-Human-Brands/mconnect-web/compare/v0.0.6...v0.0.6)
