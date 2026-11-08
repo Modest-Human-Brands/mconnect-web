@@ -6,7 +6,7 @@ Vue 3 + TypeScript + Tailwind CSS v4 web app for MConnect: a client board, a uni
 
 ```bash
 bun install
-cp .env.example .env   # then fill in VITE_DEFAULT_ORGANIZATION_ID
+cp .env.example .env   # then fill in ORGANIZATION_ID
 bun run dev            # http://localhost:5173, proxies /api -> VITE_MCONNECT_API_URL
 ```
 
@@ -24,13 +24,13 @@ Run the MConnect API (`code-connect`, Nitro) first; it listens on port 3001 by d
 
 ## Configuration
 
-| Variable                       | Purpose                                                                                                             |
-| ------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
-| `VITE_PUBLIC_SITE_URL`         | Public URL of this app. Docker build arg `SITE_URL`.                                                                |
-| `VITE_MCONNECT_API_URL`        | MConnect API origin. In development it is the target of the `/api` proxy; in production the API origin (`API_URL`). |
-| `VITE_DEFAULT_ORGANIZATION_ID` | Sent as the `x-org-id` header. Required to list and send emails.                                                    |
-| `VITE_MCONNECT_USER_ID`        | Notion id of the sending team member (optional).                                                                    |
-| `VITE_MCONNECT_API_KEY`        | Sent as `x-api-key`. Dev reads it from `.env`; in production set it on the running container (runtime `config.js`). |
+| Variable                | Purpose                                                                                                             |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `VITE_PUBLIC_SITE_URL`  | Public URL of this app. Docker build arg `SITE_URL`.                                                                |
+| `VITE_MCONNECT_API_URL` | MConnect API origin. In development it is the target of the `/api` proxy; in production the API origin (`API_URL`). |
+| `ORGANIZATION_ID`       | Sent as the `x-org-id` header. Required to list and send emails.                                                    |
+| `VITE_MCONNECT_USER_ID` | Notion id of the sending team member (optional).                                                                    |
+| `VITE_MCONNECT_API_KEY` | Sent as `x-api-key`. Dev reads it from `.env`; in production set it on the running container (runtime `config.js`). |
 
 In Docker the same variables are written to `config.js` when the container starts.
 

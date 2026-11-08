@@ -38,7 +38,7 @@ export function keyHeaders(): Record<string, string> {
 /** Endpoints scoped to an organization require the `x-org-id` header. */
 function orgHeaders(): Record<string, string> {
   if (!config.organizationId) {
-    throw new ApiError('Set VITE_DEFAULT_ORGANIZATION_ID to load or send emails.', 400)
+    throw new ApiError('Set ORGANIZATION_ID to load or send emails.', 400)
   }
   return { ...keyHeaders(), 'x-org-id': config.organizationId }
 }

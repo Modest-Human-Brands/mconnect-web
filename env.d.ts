@@ -3,11 +3,11 @@
 /// <reference types="unplugin-fonts/client" />
 
 interface ImportMetaEnv {
-  readonly VITE_PUBLIC_SITE_URL?: string
-  readonly VITE_MCONNECT_API_URL?: string
-  readonly VITE_DEFAULT_ORGANIZATION_ID?: string
-  readonly VITE_MCONNECT_USER_ID?: string
-  readonly VITE_MCONNECT_API_KEY?: string
+  readonly VITE_MCONNECT_WEB_SITE_URL?: string
+  readonly VITE_MCONNECT_WEB_API_URL?: string
+  readonly ORGANIZATION_ID?: string
+  readonly VITE_MCONNECT_WEB_USER_ID?: string
+  readonly VITE_MCONNECT_WEB_API_KEY?: string
 }
 
 interface ImportMeta {

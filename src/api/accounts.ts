@@ -25,7 +25,7 @@ export interface ImapAccountInput {
 
 function request(path: string, init: RequestInit = {}): Promise<Response> {
   if (!config.organizationId) {
-    throw new ApiError('Set VITE_DEFAULT_ORGANIZATION_ID to manage accounts.', 400)
+    throw new ApiError('Set ORGANIZATION_ID to manage accounts.', 400)
   }
   return fetch(`${config.apiBaseUrl.replace(/\/$/, '')}/api/email/accounts${path}`, {
     ...init,

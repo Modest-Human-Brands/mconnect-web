@@ -9,11 +9,11 @@ js_string() {
 
 cat > "$TARGET" <<EOF
 window.__MCONNECT_CONFIG__ = {
-  apiBaseUrl: "$(js_string "${VITE_MCONNECT_API_URL:-}")",
-  siteUrl: "$(js_string "${VITE_PUBLIC_SITE_URL:-}")",
-  organizationId: "$(js_string "${VITE_DEFAULT_ORGANIZATION_ID:-}")",
-  userId: "$(js_string "${VITE_MCONNECT_USER_ID:-}")",
-  apiKey: "$(js_string "${VITE_MCONNECT_API_KEY:-}")",
+  apiBaseUrl: "$(js_string "${VITE_MCONNECT_WEB_API_URL:-}")",
+  siteUrl: "$(js_string "${VITE_MCONNECT_WEB_SITE_URL:-}")",
+  organizationId: "$(js_string "${ORGANIZATION_ID:-}")",
+  userId: "$(js_string "${VITE_MCONNECT_WEB_USER_ID:-}")",
+  apiKey: "$(js_string "${VITE_MCONNECT_WEB_API_KEY:-}")",
 }
 EOF
 

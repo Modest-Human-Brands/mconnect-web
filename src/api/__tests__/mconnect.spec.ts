@@ -16,7 +16,7 @@ describe('fetchMessages', () => {
     const fetchSpy = vi.fn<typeof fetch>()
     vi.stubGlobal('fetch', fetchSpy)
 
-    await expect(fetchMessages()).rejects.toThrow(/VITE_DEFAULT_ORGANIZATION_ID/)
+    await expect(fetchMessages()).rejects.toThrow(/ORGANIZATION_ID/)
     expect(fetchSpy).not.toHaveBeenCalled()
   })
 })
