@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.0.8
+
+[compare changes](https://github.com/Modest-Human-Brands/mconnect-web/compare/v0.0.7...v0.0.8)
+
+### 💅 Refactors
+
+- Update environment variables and configuration references ([b4a67f5](https://github.com/Modest-Human-Brands/mconnect-web/commit/b4a67f5))
+
+### ❤️ Contributors
+
+- Shirsendu Bairagi ([@shba007](https://github.com/shba007))
+
 ## v0.0.7
 
 [compare changes](https://github.com/Modest-Human-Brands/mconnect-web/compare/v0.0.6...v0.0.7)
