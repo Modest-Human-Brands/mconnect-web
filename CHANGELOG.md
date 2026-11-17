@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.0.9
+
+[compare changes](https://github.com/Modest-Human-Brands/mconnect-web/compare/v0.0.8...v0.0.9)
+
+### 🚀 Enhancements
+
+- Setup screen to connect to MConnect, send key, org and user headers ([ef70b30](https://github.com/Modest-Human-Brands/mconnect-web/commit/ef70b30))
+
+### ❤️ Contributors
+
+- Shirsendu Bairagi ([@shba007](https://github.com/shba007))
+
 ## v0.0.8
 
 [compare changes](https://github.com/Modest-Human-Brands/mconnect-web/compare/v0.0.7...v0.0.8)
