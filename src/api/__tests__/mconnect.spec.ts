@@ -1,5 +1,10 @@
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test'
 
+const access = vi.hoisted(() => ({
+  config: { apiBaseUrl: '', apiKey: 'key', organizationId: 'org-1', userId: 'user-1' },
+}))
+vi.mock('@/config', () => access)
+
 import { ApiError, fetchContacts, fetchMessages, renderPreview, saveContact } from '../mconnect'
 
 function respond(body: unknown, init: ResponseInit = {}) {
@@ -12,13 +17,22 @@ function respond(body: unknown, init: ResponseInit = {}) {
 afterEach(() => vi.unstubAllGlobals())
 
 describe('fetchMessages', () => {
-  it('refuses to call the API without an organization id', async () => {
-    const fetchSpy = vi.fn<typeof fetch>()
-    vi.stubGlobal('fetch', fetchSpy)
+  it.each(['apiKey', 'organizationId', 'userId'] as const)(
+    'refuses to call the API without a %s',
+    async (field) => {
+      const fetchSpy = vi.fn<typeof fetch>()
+      vi.stubGlobal('fetch', fetchSpy)
+      const saved = access.config[field]
+      access.config[field] = ''
 
-    await expect(fetchMessages()).rejects.toThrow(/ORGANIZATION_ID/)
-    expect(fetchSpy).not.toHaveBeenCalled()
-  })
+      try {
+        await expect(fetchMessages()).rejects.toThrow(/Setup/)
+        expect(fetchSpy).not.toHaveBeenCalled()
+      } finally {
+        access.config[field] = saved
+      }
+    },
+  )
 })
 
 describe('fetchContacts', () => {

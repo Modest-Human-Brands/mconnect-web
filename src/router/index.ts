@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+import { isConfigured } from '@/config'
 import { useCrmStore } from '@/stores/crm'
 import { CLIENT_STEPS } from '@/stores/clientWizard'
 import { EMAIL_STEPS, useEmailWizardStore } from '@/stores/emailWizard'
@@ -9,6 +10,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: '/', redirect: () => (useCrmStore().onboarded ? '/clients' : '/onboarding') },
+    { path: '/setup', component: () => import('@/views/SetupView.vue') },
     { path: '/onboarding', component: () => import('@/views/OnboardingView.vue') },
     { path: '/onboarding/email', component: () => import('@/views/onboarding/EmailStep.vue') },
     { path: '/onboarding/done', component: () => import('@/views/onboarding/DoneStep.vue') },
@@ -44,6 +46,8 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
+  // Nothing works without an organization and key, so collect them first.
+  if (!isConfigured() && to.path !== '/setup') return '/setup'
   if (to.name === 'email-details' || to.name === 'email-review') {
     if (!useEmailWizardStore().templateId) return EMAIL_STEPS[0].path
   }

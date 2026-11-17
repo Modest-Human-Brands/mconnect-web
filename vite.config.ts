@@ -10,6 +10,8 @@ import Icons from 'unplugin-icons/vite'
 const env = loadEnv('development', process.cwd(), 'VITE_')
 
 export default defineConfig({
+  // `ORGANIZATION_ID` is shared with the other services, so it carries no VITE_ prefix.
+  envPrefix: ['VITE_', 'ORGANIZATION_ID'],
   staged: {
     '*': 'vp check --fix',
   },
@@ -116,7 +118,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: env.VITE_MCONNECT_API_URL || 'http://localhost:3001',
+        target: env.VITE_MCONNECT_WEB_API_URL || 'http://localhost:3001',
         changeOrigin: true,
       },
     },

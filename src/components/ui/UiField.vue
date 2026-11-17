@@ -14,9 +14,12 @@ withDefaults(
     readonly?: boolean
     multiline?: boolean
     rows?: number
-    type?: 'text' | 'email' | 'tel' | 'date' | 'time' | 'number'
+    type?: 'text' | 'email' | 'tel' | 'date' | 'time' | 'number' | 'password'
     options?: readonly string[]
     error?: string
+    autocomplete?: string
+    /** Draw the border at rest, for fields sitting on a raised surface. */
+    outlined?: boolean
   }>(),
   { type: 'text', rows: 4 },
 )
@@ -35,7 +38,10 @@ const id = useId()
           ? 'border-alert-500 bg-raised'
           : readonly
             ? 'border-line bg-transparent'
-            : 'border-transparent bg-raised focus-within:border-primary-400 focus-within:shadow-focus-ring',
+            : [
+                outlined ? 'border-line' : 'border-transparent',
+                'bg-raised focus-within:border-primary-400 focus-within:shadow-focus-ring',
+              ],
       ]"
     >
       <select
@@ -69,6 +75,7 @@ const id = useId()
         :type="type"
         :placeholder="placeholder"
         :readonly="readonly"
+        :autocomplete="autocomplete"
         :aria-invalid="error ? true : undefined"
         class="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted"
         :class="readonly ? 'text-muted' : 'text-white'"

@@ -48,4 +48,67 @@ export function readConfig(
   }
 }
 
-export const config = readConfig()
+const STORAGE_KEY = 'mconnect.access'
+
+/** Credentials typed into the Setup screen; they stay in this browser only. */
+function readStored(): RuntimeConfig {
+  try {
+    const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}') as Record<string, unknown>
+    const text = (value: unknown) => (typeof value === 'string' ? value : undefined)
+    return {
+      organizationId: text(raw.organizationId),
+      userId: text(raw.userId),
+      apiKey: text(raw.apiKey),
+    }
+  } catch {
+    return {}
+  }
+}
+
+export const config = readConfig(
+  typeof window === 'undefined' ? undefined : window.__MCONNECT_CONFIG__,
+  { ...buildConfig(), ...definedOnly(readStored()) },
+)
+
+function definedOnly(values: RuntimeConfig): RuntimeConfig {
+  return Object.fromEntries(
+    Object.entries(values).filter(([, value]) => value?.trim()),
+  ) as RuntimeConfig
+}
+
+/** The API needs the organization, the acting user and the key; without all three, show Setup. */
+export function isConfigured(
+  current: Pick<typeof config, 'organizationId' | 'userId' | 'apiKey'> = config,
+) {
+  return Boolean(current.organizationId && current.userId && current.apiKey)
+}
+
+export interface AccessInput {
+  organizationId: string
+  userId: string
+  apiKey: string
+}
+
+/** Remembers the access details in this browser and applies them to the live config. */
+export function saveAccess(input: AccessInput): void {
+  const next = {
+    organizationId: input.organizationId.trim(),
+    userId: input.userId.trim(),
+    apiKey: input.apiKey.trim(),
+  }
+  Object.assign(config, next)
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
+  } catch {
+    // Storage can be blocked (private window); the details then last for this tab only.
+  }
+}
+
+export function clearAccess(): void {
+  Object.assign(config, { organizationId: '', userId: '', apiKey: '' })
+  try {
+    localStorage.removeItem(STORAGE_KEY)
+  } catch {
+    // Nothing stored to clear.
+  }
+}

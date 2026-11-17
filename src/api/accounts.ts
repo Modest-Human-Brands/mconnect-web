@@ -1,4 +1,4 @@
-import { ApiError, keyHeaders } from '@/api/mconnect'
+import { ApiError, authHeaders, type Access } from '@/api/mconnect'
 import { config } from '@/config'
 
 export type EmailProvider = 'google' | 'microsoft' | 'imap'
@@ -24,16 +24,9 @@ export interface ImapAccountInput {
 }
 
 function request(path: string, init: RequestInit = {}): Promise<Response> {
-  if (!config.organizationId) {
-    throw new ApiError('Set ORGANIZATION_ID to manage accounts.', 400)
-  }
   return fetch(`${config.apiBaseUrl.replace(/\/$/, '')}/api/email/accounts${path}`, {
     ...init,
-    headers: {
-      'Content-Type': 'application/json',
-      ...keyHeaders(),
-      'x-org-id': config.organizationId,
-    },
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
   })
 }
 
@@ -47,6 +40,24 @@ async function ok<T>(res: Response, fallback: string): Promise<T> {
     // Non-JSON error body.
   }
   throw new ApiError(detail || `${fallback} (${res.status})`, res.status)
+}
+
+/**
+ * Checks a key and organization against the API before they are saved. Uses the values passed in,
+ * not the saved config, and fails with a message fit to show under the form.
+ */
+export async function verifyAccess(access: Access) {
+  const headers = authHeaders(access)
+  let res: Response
+  try {
+    res = await fetch(`${config.apiBaseUrl.replace(/\/$/, '')}/api/email/accounts`, { headers })
+  } catch {
+    throw new ApiError('Could not reach the MConnect API. Check your connection and try again.', 0)
+  }
+  if (res.ok) return
+  if (res.status === 401) throw new ApiError('That API key was not accepted.', 401)
+  if (res.status === 503) throw new ApiError('The API has no key configured yet.', 503)
+  await ok(res, 'Could not verify these details')
 }
 
 export async function listAccounts(): Promise<EmailAccount[]> {

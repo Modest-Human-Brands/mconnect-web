@@ -30,17 +30,22 @@ function url(path: string): string {
   return `${config.apiBaseUrl.replace(/\/$/, '')}/api${path}`
 }
 
-/** Headers every API request carries: the shared key, when one is configured. */
-export function keyHeaders(): Record<string, string> {
-  return config.apiKey ? { 'x-api-key': config.apiKey } : {}
+/** Who is calling: the API needs the key, the organization and the acting user on every request. */
+export interface Access {
+  apiKey: string
+  organizationId: string
+  userId: string
 }
 
-/** Endpoints scoped to an organization require the `x-org-id` header. */
-function orgHeaders(): Record<string, string> {
-  if (!config.organizationId) {
-    throw new ApiError('Set ORGANIZATION_ID to load or send emails.', 400)
+export function authHeaders(access: Access = config): Record<string, string> {
+  if (!access.apiKey || !access.organizationId || !access.userId) {
+    throw new ApiError('Add your organization ID, user ID and API key in Setup first.', 400)
   }
-  return { ...keyHeaders(), 'x-org-id': config.organizationId }
+  return {
+    'x-api-key': access.apiKey,
+    'x-org-id': access.organizationId,
+    'x-user-id': access.userId,
+  }
 }
 
 async function failure(res: Response, fallback: string): Promise<ApiError> {
@@ -54,12 +59,8 @@ async function failure(res: Response, fallback: string): Promise<ApiError> {
   return new ApiError(detail || `${fallback} (${res.status})`, res.status)
 }
 
-async function getJson<T>(
-  path: string,
-  fallback: string,
-  headers?: Record<string, string>,
-): Promise<T> {
-  const res = await fetch(url(path), { headers: { ...keyHeaders(), ...headers } })
+async function getJson<T>(path: string, fallback: string): Promise<T> {
+  const res = await fetch(url(path), { headers: authHeaders() })
   if (!res.ok) throw await failure(res, fallback)
   return res.json() as Promise<T>
 }
@@ -81,7 +82,7 @@ export async function renderPreview(
 ): Promise<PreviewResponse> {
   const res = await fetch(url('/interaction/email/template/preview'), {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...keyHeaders() },
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
     body: JSON.stringify(payload),
     signal,
   })
@@ -105,7 +106,7 @@ export async function renderPreview(
 }
 
 export async function fetchMessages(): Promise<EmailMessage[]> {
-  return getJson('/interaction', 'Failed to load the inbox', orgHeaders())
+  return getJson('/interaction', 'Failed to load the inbox')
 }
 
 export function fetchTelemetry(emailId: string): Promise<EmailTelemetry> {
@@ -123,7 +124,7 @@ export async function fetchContacts(limit = 200): Promise<Contact[]> {
 export async function saveContact(input: ContactInput): Promise<ContactSaveResult> {
   const res = await fetch(url('/contacts'), {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json', ...keyHeaders() },
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
     body: JSON.stringify(input),
   })
   if (!res.ok) throw await failure(res, 'Failed to save the client')
@@ -131,11 +132,10 @@ export async function saveContact(input: ContactInput): Promise<ContactSaveResul
 }
 
 export async function sendEmail(input: SendEmailInput): Promise<SendEmailResult> {
-  const { userId } = config
   const res = await fetch(url('/interaction/email/send'), {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...orgHeaders() },
-    body: JSON.stringify({ ...input, ...(userId ? { userId } : {}) }),
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
+    body: JSON.stringify(input),
   })
   if (!res.ok) throw await failure(res, 'Failed to send the email')
   return res.json()

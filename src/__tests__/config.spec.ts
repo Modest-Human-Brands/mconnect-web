@@ -41,3 +41,14 @@ describe('apiKey', () => {
     expect(readConfig(undefined, {}).apiKey).toBe('')
   })
 })
+describe('isConfigured', () => {
+  it('needs the organization, the user and the key', async () => {
+    const { isConfigured } = await import('../config')
+    const all = { organizationId: 'org', userId: 'me', apiKey: 'key' }
+
+    expect(isConfigured(all)).toBe(true)
+    expect(isConfigured({ ...all, userId: '' })).toBe(false)
+    expect(isConfigured({ ...all, apiKey: '' })).toBe(false)
+    expect(isConfigured({ ...all, organizationId: '' })).toBe(false)
+  })
+})
